@@ -70,6 +70,10 @@ inputs:
       Specifies bash commands to run before the runner starts. It's useful for installing dependencies with apt-get, yum, dnf, etc.
     required: false
 
+  aws-key-pair-name:
+    description: >-
+      The AWS Key Pair Name to be associated to the instance
+    required: false
 outputs:
   label:
     description: >-
