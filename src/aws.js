@@ -19,13 +19,14 @@ function buildUserDataScript(githubRegistrationToken, label) {
   } else {
     return [
       '#!/bin/bash',
-      'mkdir actions-runner && cd actions-runner',
       `echo "${config.input.preRunnerScript}" > pre-runner-script.sh`,
       'source pre-runner-script.sh',
       'case $(uname -m) in aarch64) ARCH="arm64" ;; amd64|x86_64) ARCH="x64" ;; esac && export RUNNER_ARCH=${ARCH}',
-      'echo "curl -O -L https://github.com/actions/runner/releases/download/v2.299.1/actions-runner-linux-${RUNNER_ARCH}-2.299.1.tar.gz" > /tmp/ec2runner.sh',
-      'echo "tar xzf ./actions-runner-linux-${RUNNER_ARCH}-2.299.1.tar.gz" >> /tmp/ec2runner.sh',
-      `echo "./config.sh --url https://github.com/${config.githubContext.owner}/${config.githubContext.repo} --token ${githubRegistrationToken} --labels ${label}" >> /tmp/ec2runner.sh`,
+      'export RUNNER_VER="2.307.1"',
+      'echo "mkdir -p actions-runner && cd actions-runner"',
+      'echo "curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VER}/actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VER}.tar.gz" > /tmp/ec2runner.sh',
+      'echo "tar xzf ./actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VER}.tar.gz" >> /tmp/ec2runner.sh',
+      `echo "./config.sh --url https://github.com/${config.githubContext.owner}/${config.githubContext.repo} --token ${githubRegistrationToken} --labels ${label} --ephemeral" >> /tmp/ec2runner.sh`,
       'echo "./run.sh" >> /tmp/ec2runner.sh',
       'chmod 777 /tmp/ec2runner.sh',
       'su -l ubuntu -c "source /tmp/ec2runner.sh"',

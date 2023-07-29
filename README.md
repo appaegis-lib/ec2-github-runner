@@ -3,6 +3,7 @@
 **Changes in this fork**
 
 1. Run GH runner as non-root user
+2. Start runner as ephemeral
 
 ---
 
