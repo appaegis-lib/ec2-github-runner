@@ -26,7 +26,7 @@ function buildUserDataScript(githubRegistrationToken, label) {
       'echo "mkdir -p actions-runner && cd actions-runner"',
       'echo "curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VER}/actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VER}.tar.gz" > /tmp/ec2runner.sh',
       'echo "tar xzf ./actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VER}.tar.gz" >> /tmp/ec2runner.sh',
-      `echo "./config.sh --url https://github.com/${config.githubContext.owner}/${config.githubContext.repo} --token ${githubRegistrationToken} --labels ${label} --ephemeral" >> /tmp/ec2runner.sh`,
+      `echo "./config.sh --url https://github.com/${config.githubContext.owner}/${config.githubContext.repo} --token ${githubRegistrationToken} --labels ${label} --ephemeral --unattended" >> /tmp/ec2runner.sh`,
       'echo "./run.sh" >> /tmp/ec2runner.sh',
       'chmod 777 /tmp/ec2runner.sh',
       'su -l ubuntu -c "source /tmp/ec2runner.sh"',
