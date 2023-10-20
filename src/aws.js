@@ -51,6 +51,12 @@ async function startEc2Instance(label, githubRegistrationToken) {
     TagSpecifications: config.tagSpecifications,
   };
 
+  var volparams = {
+    VolumeId: config.input.volumeId,
+    Device: config.input.volDevice,
+    DryRun: false,
+  };
+
   if (config.input.awsKeyPairName) {
     params['KeyName'] = config.input.awsKeyPairName;
   }
@@ -59,6 +65,16 @@ async function startEc2Instance(label, githubRegistrationToken) {
     const result = await ec2.runInstances(params).promise();
     const ec2InstanceId = result.Instances[0].InstanceId;
     core.info(`AWS EC2 instance ${ec2InstanceId} is started`);
+
+    // attach volume if configured
+    if (config.input.volumeId) {
+      volparams['InstanceId'] = ec2InstanceId;
+      ec2.attachVolume(volparams, function (err, data) {
+        if (err) core.error(err); // an error occurred
+        else core.info(String(data)); // successful response
+      });
+    }
+
     return ec2InstanceId;
   } catch (error) {
     core.error('AWS EC2 instance starting error');
