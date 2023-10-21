@@ -34,6 +34,8 @@ function buildUserDataScript(githubRegistrationToken, label) {
   }
 }
 
+/*eslint no-use-before-define: ["error", { "functions": false }]*/
+
 async function startEc2Instance(label, githubRegistrationToken) {
   const ec2 = new AWS.EC2();
 
@@ -74,6 +76,8 @@ async function startEc2Instance(label, githubRegistrationToken) {
 
     // attach volume if configured
     if (config.input.volumeId) {
+      // check and wait for the instance
+      await waitForInstanceRunning(ec2InstanceId);
       volparams['InstanceId'] = ec2InstanceId;
       ec2.attachVolume(volparams, function (err, data) {
         if (err) core.error(err); // an error occurred
