@@ -74,6 +74,21 @@ inputs:
     description: >-
       The AWS Key Pair Name to be associated to the instance
     required: false
+  use-spot-instances:
+    description: >-
+      Use spot instances for cost savings?
+    default: 'false'
+    required: false
+
+  volume-id:
+    description: >-
+      attached EBS volume - volume will be attached to ec2 instance if provided
+    required: false
+  vol-device:
+    description: >-
+      attached EBS volume - device such as /dev/sdf on ec2 instance
+    required: false
+
 outputs:
   label:
     description: >-

@@ -16,7 +16,7 @@ class Config {
       runnerHomeDir: core.getInput('runner-home-dir'),
       preRunnerScript: core.getInput('pre-runner-script'),
       awsKeyPairName: core.getInput('aws-key-pair-name'),
-
+      useSpotInstances: core.getBooleanInput('use-spot-instances'),
       volDevice: core.getInput('vol-device'),
       volumeId: core.getInput('volume-id'),
     };
